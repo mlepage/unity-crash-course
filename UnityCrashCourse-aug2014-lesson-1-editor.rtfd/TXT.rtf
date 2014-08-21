@@ -1,0 +1,97 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1265\cocoasubrtf210
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\margl1440\margr1440\vieww23880\viewh13240\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+
+\f0\fs24 \cf0 Unity Crash Course\
+Marc Lepage Aug 23\
+\
+Lesson 1 - Editor\
+\
+When Unity first launches, it will open the Unity 4 sample project "Angry Bots." If not, it's located in /Users/Shared/Unity/4-0_AngryBots (on OS X) and should also be in the recent projects list. After opening the project [A], open the main scene "AngryBots" in the project's Assets folder [B].\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 {{\NeXTGraphic Pasted Graphic 3.tiff \width27320 \height15360
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 You should see the Angry Bots sample game. Feel free to explore the project and its scenes later when you have the time, and remember you can use Unity sample assets in your own games.\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 {{\NeXTGraphic Pasted Graphic 4.tiff \width27320 \height15360
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 That's the default layout. You can change layouts [C] and even create your own [D]. You can also drag and dock views at will. For now, choose the 2 by 3 layout.\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 {{\NeXTGraphic Pasted Graphic 5.tiff \width27320 \height15360
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \
+Let's look at the editor and its views.\
+\
+Project View [E]\
+\
+This is where the project's assets are stored. When you create an asset (or import a package of pre-created assets) you are making it available for use in the project's scenes (which are also assets).\
+\
+Scene View [F]\
+\
+The scene view is a 3D editor for working on the open scene. The upper left contains four important tools [G]: \
+hand, position, rotation, and scale. These use the shortcut keys Q, W, E, and R respectively.\
+\
+The hand tool allows you to move the scene using the mouse. Holding ALT allows you to orbit (rotate) the scene, and holding CTRL allows you to zoom the scene. SHIFT speeds up the movement. You can also use cursor keys, mouse wheel, or a trackpad.\
+\
+In addition, the scene gizmo [H] allows you to orbit the scene and change between perspective and isometric projections.\
+\
+The transform tools (position, rotate, scale) allow you to adjust the placement of selected objects.\
+\
+Hierarchy View [I]\
+\
+The hierarchy view shows all of the game objects in the scene, even those that are invisible or inactive. It is a tree of objects, so each may have children or a parent.\
+\
+Selecting an object in the hierarchy view focuses it in the scene view, and vice versa. This may allow the object to show additional gizmos in the scene view. In this case, a camera object is selected so its view outline [J] is visible in the scene view, as is a preview of what the camera's view sees [K].\
+\
+Double clicking an object in the hierarchy view automatically navigates the scene view to show it.\
+\
+Inspector View [L]\
+\
+The inspector view shows editors for any components attached to a game object. By default, game objects have only a transform component [M]. This allows you position directly enter xyz values for position, rotation, and scale.\
+\
+In addition, for any value you can hover the mouse over its label and then click and drag to change its value.\
+\
+Additional components may also be visible in the inspector view. This game object is a camera because it has a camera component. Other common components include renderers, colliders, and scripts (both pre-created and those you create yourself).\
+\
+Game View [N]\
+\
+The game view shows what the game looks like. This will be a composite of at least one camera view, perhaps more.\
+\
+When you press play [O], you can run the game live in the editor, and even pause it to single step frame by frame. If the game view is not visible (as in the default layout), it will replace the scene view, otherwise you can view both side by side (as in the 2 by 3 layout). You can also set the game view to maximize on play [P].\
+\
+You can interact with the scene view while the game is running. You can also make live changes in the hierarchy and inspector views. However, these changes will revert when you stop playing; the editor dims its views to remind you of this.\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 Now is also a good time to take a look at the aspect ratio settings of the game view. This only affects the editor, not the game itself, but it can be helpful for testing, and you only have to set it up once.\
+\
+By default, free aspect is a resizable window. You can use specific aspect ratios such as 4:3 or 16:9, or create your own configurations [Q]. The resolution will be scaled to fit the game view, and if the aspect ratio differs, it will be letterboxed or pillarboxed appropriately. Some typical BlackBerry 10 resolutions are shown below.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 {{\NeXTGraphic Pasted Graphic 1.tiff \width27320 \height15360
+}¬}\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \
+More info:\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+{\field{\*\fldinst{HYPERLINK "http://docs.unity3d.com/Manual/LearningtheInterface.html"}}{\fldrslt \cf0 http://docs.unity3d.com/Manual/LearningtheInterface.html}}\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+{\field{\*\fldinst{HYPERLINK "http://docs.unity3d.com/Manual/UsingTheInspector.html"}}{\fldrslt \cf0 http://docs.unity3d.com/Manual/UsingTheInspector.html}}\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+{\field{\*\fldinst{HYPERLINK "http://docs.unity3d.com/Manual/UsingTheSceneView.html"}}{\fldrslt \cf0 http://docs.unity3d.com/Manual/UsingTheSceneView.html}}\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+{\field{\*\fldinst{HYPERLINK "http://docs.unity3d.com/Manual/GameView.html"}}{\fldrslt \cf0 http://docs.unity3d.com/Manual/GameView.html}}\
+}

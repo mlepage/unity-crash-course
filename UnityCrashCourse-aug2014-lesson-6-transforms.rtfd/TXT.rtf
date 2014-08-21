@@ -1,0 +1,96 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1265\cocoasubrtf210
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\margl1440\margr1440\vieww27080\viewh13880\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+
+\f0\fs24 \cf0 Unity Crash Course\
+Marc Lepage Aug 23\
+\
+Lesson 6 - Transforms\
+\
+Now that we have a world created, it needs a threat. Let's build a monster.\
+\
+Create some primitives [A]: a sphere, a cube, a capsule, and a cylinder.\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 {{\NeXTGraphic Pasted Graphic.tiff \width27320 \height15360
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 \
+\
+Note in the inspector window, that each has a mesh filter, a mesh renderer, and a collider component. And of course each has a transform component.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \
+By default, newly created objects are placed in the center of the scene's view. An easy way to position them at the origin is to reset their transform, which you can find under the transform component's settings [B]. Go ahead an reset the transform of each of the primitives now (you can select them all to reset all transforms at once).\
+\
+Note that if our terrain is above the origin, we won't see them. That's OK, we can either work with them below the terrain for now, or simply raise their Y position so they are above the terrain.\
+\
+By default, the sphere and cube have radius 0.5 in all directions, so are of unit size. The capsule and cylinder are radius 0.5 in the X and Z directions, but radius 1 in the Y direction, so they are 2 units high.\
+\
+We want to change their size so they get thinner and thinner.\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 {{\NeXTGraphic Pasted Graphic 1.tiff \width27320 \height15360
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \
+We can adjust the size of each primitive by altering its scale in any direction. We can do this by entering values directly in the transform component [C], or by choosing the scale tool [D] (also the R key) and manipulating its gizmo in the scene view [E]. When using the scale gizmo, the red green and blue boxes scale in the X Y and Z axes respectively, the central white box scales all axes together; holding COMMAND down will snap to increments of 0.1.\
+\
+Go ahead and scale the cube 0.25 in the X and Z directions; the capsule 0.15 in the X and Z directions; and the cylinder 0.05 in the X and Z directions; leave the sphere's scale alone.\
+\
+Now we want to position our primitives so they are stacked one atop the other.\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 {{\NeXTGraphic Pasted Graphic 2.tiff \width27320 \height15360
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \
+We can position each primitive by entering values directly in the transform component [F], or by choosing the translate tool [G] (also the W key) and manipulating its gizmo in the scene view [H]. When using the translate gizmo, the red green and blue arrows scale in the X Y and Z axes respectively, the central box moves in the selected plane; holding COMMAND down will snap to increments of 1.0.\
+\
+Go ahead and move the cube to Y=1, the capsule to Y=2.5, and the cylinder to Y=4.5; leave the sphere's position alone.\
+\
+They should all be stacked up nicely. But notice what happens if we move the sphere, say in the X or Z direction: the other primitives do not follow it. Each is positioned independently, that is, absolutely. (Undo this movement now.)\
+\
+We want each primitive's position to depend on that of the one before it, that is, relatively. We can do this by introducing a hierarchy.\
+\
+In the hierarchy view, drag the cylinder onto the capsule, so it becomes its child. Doing this will preserve its absolute position (so it won't move in the scene), but will now make the cylinder's local position relative to that of the capsule (its parent). (Notice how its Y changed from 4.5 to 2.) Go ahead and drag the capsule onto the cube, and the cube onto the sphere. This makes each primitive is participating in a hierarchy from the sphere to the cylinder.\
+\
+Now we want to be able to rotate our individual primitives as if they were part of an articulated arm.\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 {{\NeXTGraphic Pasted Graphic 4.tiff \width27320 \height15360
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \
+We can rotate each primitive by entering values directly in the transform component [I], or by choosing the rotation tool [J] (also the E key) and manipulating its gizmo in the scene view [K]. When using the rotation gizmo, the red green and blue circles rotate about the X Y and Z axes respectively; holding COMMAND down will snap to increments of 15 degrees.\
+\
+Go ahead and rotate the cylinder. Notice it rotates about its centre. We want it to rotate about the point it touches the capsule (its parent). We can do this by introducing additional empty game objects into our hierarchy, to achieve more control over the relative transforms. (Undo this rotation now.)\
+\
+Select the sphere, choose Create Empty Child (from the GameObject menu), and rename the new child to "Joint 1". Create another empty child ("Joint 2") under the first joint, then another empty child ("Joint 3") under the second joint.\
+\
+These will be our joints. However since they were created with reset transforms, they are not in the desired position. We want them to be at the boundaries between the primitives. So change Joint 1's Y position to 0.5 (to place it at the edge of its parent, the sphere), change Joint 2's Y position to 1 (accounting for the length of the cube), and finally change Joint 3's Y position to 2 (accounting for the length of the capsule).\
+\
+Now, drag the cylinder to change its parent to Joint 3, the capsule to change its parent to Joint 2, and the cube to change its parent to Joint 1.\
+\
+At this point, if we rotate any of the three joints, the children (joints and primitives) rotate as if they were part of an articulated arm, just as desired.\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 {{\NeXTGraphic Pasted Graphic 7.tiff \width27320 \height15360
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \
+Go ahead and set all the joint rotations back to 0 degrees.\
+\
+Rename the sphere game object to "Monster."\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 Now is a good time to save the scene and project.\
+\
+More info:\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+{\field{\*\fldinst{HYPERLINK "http://docs.unity3d.com/Manual/Transforms.html"}}{\fldrslt \cf0 http://docs.unity3d.com/Manual/Transforms.html}}\
+}

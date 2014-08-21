@@ -1,0 +1,111 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1265\cocoasubrtf210
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\margl1440\margr1440\vieww27080\viewh13880\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+
+\f0\fs24 \cf0 Unity Crash Course\
+Marc Lepage Aug 23\
+\
+Lesson 4 - Terrain\
+\
+Right now our scene has a sky but nothing else. Unity has support for terrains, so let's add one.\
+\
+Create a terrain from either the GameObject menu [A] or the hierarchy view's create menu [B]. Note that these menus are the same, except the former allows you to also create empty game objects, which are useful for organizing our scene.\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 {{\NeXTGraphic Pasted Graphic.tiff \width27320 \height15360
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 \
+\
+The terrain is created in the scene's hierarchy. Double click it to select it and focus it in the scene view.\
+\
+{{\NeXTGraphic Pasted Graphic 1.tiff \width27320 \height15360
+}¬}\
+\
+The terrain has two new components. One [C] is a collider which means that when physics is used, objects will not fall through it. It also has an option to create colliders for trees, leave that on.\
+\
+The other component [D] allows you to edit the terrain. Note its series of tools, and click on the last one, the gear (settings) icon.\
+\
+{{\NeXTGraphic Pasted Graphic 2.tiff \width27320 \height15360
+}¬}\
+\
+There are a lot of settings, but we're interested in the resolution ones [E]. By default the terrain is 2000 by 2000 units, and since a unit is a metre, this terrain is 2km by 2km, or 4 square kilometres. Reduce its size by an order of magnitude, so it's a more manageable 200m by 200m. Also reduce the terrain height from 600m to 60m, otherwise elevation changes will be too large.\
+\
+In Unity, the Y axis is up, so the terrain extends in the XZ plane. It's positioned at X=0 and Y=0 [F], but it's convenient to have the scene's origin at the centre of our terrain, so change the terrain's position to X=-100 and Y=-100 to centre it.\
+\
+Now we want to sculpt our terrain's elevation. We do this using the first three tools [G].\
+\
+{{\NeXTGraphic Pasted Graphic 6.tiff \width27320 \height15360
+}¬}\
+\
+The first terrain tool raises (or lowers, if SHIFT is held) the terrain, and is used to create hills and valleys. The second paints a particular height (chosen by sampling with the SHIFT key held), and is used to create plains and plateaus. The third smooths the terrain's height, as if by erosion.\
+\
+All tools use a chosen brush [H], which you use to paint on the terrain in the scene view [I]. Try to paint a hill near the origin and some more interesting terrain.\
+\
+Now that we have some elevation sculpted, we want to place some texture imagery on it so it looks like grass, rock, and so on. Again we face the issue of not having any appropriate assets in our project to use. Let's fix that.\
+\
+We could import the standard "terrain assets" package, but it really only has a handful of textures and one tree. The Unity Asset Store has a more complete "terrain assets" package that we can use, so we'll import it.\
+\
+Open the Asset Store from within Unity (from the Window menu) and the Asset Store window will appear.\
+\
+{{\NeXTGraphic Pasted Graphic 8.tiff \width21080 \height15480
+}¬}\
+Log in (upper right) if you haven't already. This allows you to manage your downloads and wish list [J]. The wish list is handy for bookmarking interesting assets as you browse them.\
+\
+Search for "terrain assets" (also in the upper right). The asset we are interested in is called "Terrain Assets" by Unity Technologies [K] and should be among the first results. Click it.\
+\
+{{\NeXTGraphic Pasted Graphic 5.tiff \width21080 \height15480
+}¬}\
+As with most online stores, assets have a description and user reviews. Typically screenshots are provided, and sometimes also demonstration videos. Some assets contain links (in their description) to live demos using the Unity Web Player. All assets allow you to browse their contents, so you can see what you are getting.\
+\
+Click the download button. (If as above you've already downloaded it, the button will say import.) The asset will download, and then present the import package dialog. Again, we can import all or part of a package into our project. In this case, choose to import all.\
+\
+In the future, as long as we are logged in we can use the download manager to re-download packages to our computer, and to re-import downloaded packages into our project.\
+\
+{{\NeXTGraphic Pasted Graphic 10.tiff \width27320 \height15360
+}¬}\
+\
+Our terrain assets are now imported into our project [L].\
+\
+Click the Paint tool [M], then click Edit Textures then choose Add Texture [N]. The Add Terrain Texture dialog will appear, click Select Texture [O]. The Select Texture2D dialog will appear, choose a terrain texture such as muddy grass [P] by double clicking it. Then click the Add button in the Add Terrain Texture dialog.\
+\
+The added terrain texture will appear in the textures area of the terrain component [P]. Because it's the first texture added, it will automatically paint the entire terrain, as visible in the scene view and the game view.\
+\
+Go ahead and add a few more textures in the same way, such as dirt, rocks, or different types of grass. Note that the Select Texture2D dialog will also show tree textures because they are also in the terrain assets package, and the skybox textures that were previously imported, but they aren't suitable for painting terrain.\
+\
+Once you have a few textures added, with the paint tool selected you can choose a brush and a texture, then in the scene view you can draw that texture on the sculpted terrain. For example, draw dirt on small hills and rocks on large hills. Go ahead and do that now.\
+\
+Once the entire terrain is painted, we are ready to add some trees.\
+\
+{{\NeXTGraphic Pasted Graphic 12.tiff \width27320 \height15360
+}¬}\
+\
+Click the Place Trees tool [Q]. In the same way that we needed to add textures to the paint tool, we need to add trees to the place trees tool. Click Edit Trees then choose Add Tree [R]. The Add Tree dialog will appear, click the circle select button [S]. The \
+Select GameObject dialog will appear, choose a tree such as alder [T] by double clicking on it. Then click the add button in the Add Tree dialog.\
+\
+The added tree will appear in the trees area of the terrain component. Go ahead and add another tree or two.\
+\
+Once you have a few trees added, with the place trees tool selected you can choose a brush and a tree, then in the scene view you can draw trees on the sculpted terrain. \
+\
+It can be tedious to place trees by hand. The Mass Place Trees button [U] will automate this process, try it with about 100 trees to see results like this, and remember you can hold SHIFT while placing trees to remove them from a particular area.\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 {{\NeXTGraphic 1__#$!@%!#__Pasted Graphic.tiff \width27320 \height15360
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 \
+\
+Note that trees do not appear in the hierarchy view as children of the terrain game object. Unity has special handling for terrains and trees (and bushes and grass) to achieve acceptable performance.\
+\
+Unity also has a Tree Creator which you can use to create your own trees. Also there are trees and other terrain decorations available in the asset store.\
+\
+Now is a good time to save the scene and project.\
+\
+More info:\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+{\field{\*\fldinst{HYPERLINK "http://docs.unity3d.com/Manual/script-Terrain.html"}}{\fldrslt \cf0 http://docs.unity3d.com/Manual/script-Terrain.html}}\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+{\field{\*\fldinst{HYPERLINK "http://docs.unity3d.com/Manual/class-Tree.html"}}{\fldrslt \cf0 http://docs.unity3d.com/Manual/class-Tree.html}}\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+{\field{\*\fldinst{HYPERLINK "http://docs.unity3d.com/Manual/AssetStore.html"}}{\fldrslt \cf0 http://docs.unity3d.com/Manual/AssetStore.html}}\
+}

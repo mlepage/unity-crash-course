@@ -1,0 +1,68 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1265\cocoasubrtf210
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\margl1440\margr1440\vieww27080\viewh13880\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+
+\f0\fs24 \cf0 Unity Crash Course\
+Marc Lepage Aug 23\
+\
+Lesson 11 - Score\
+\
+Our hero can now destroy monsters, but it's not any fun if nobody is keeping score.\
+\
+To display a label on screen, create GUIText game object [A].\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 {{\NeXTGraphic Pasted Graphic.tiff \width27320 \height15360
+}¬}\
+\
+Note it appears in the centre of the game view [B]. Rename it "Score" [C] and note its transform [D] and GUIText [E] components.\
+\
+{{\NeXTGraphic Pasted Graphic 1.tiff \width27320 \height15360
+}¬}\
+\
+When positioning GUI text, the coordinate system is 2D in screen space, with X=0 Y=0 at the bottom left, and X=1 Y=1 at the top right. The GUI text appears in the centre of the screen because it is positioned at X=0.5 Y=0.5 [D].\
+\
+To place the text in the upper left, change its position to X=0 Y=1 in the transform component [D]. Increase its font size (e.g. to 18) and change its colour (e.g. to yellow) [E]. Offset it in slightly from the corner of the screen by adding a pixel offset X=5 Y=-5 [E] (because Y goes up).\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \
+Finally, change the actual text to "Score: 0".\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 {{\NeXTGraphic Pasted Graphic 2.tiff \width27320 \height15360
+}¬}\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \
+Now that we can display our score, we just a way to increase it.\
+\
+We already have a script ("DestroyMonsterOnCollision") which knows when our hero destroys a monster. That's a reasonable place to increase our score.\
+\
+We'll edit that script to start score at 0 (as a private member variable of type integer) and increase it whenever a monster is destroyed. At the same time, we'll update the score's label, which is the GUI text game object.\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 Go ahead and copy the completed script code (v2) from the Crash Course folder.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 {{\NeXTGraphic Pasted Graphic 3.tiff \width27320 \height15360
+}¬}\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \
+Remember to configure the score label in the player's DestroyMonsterOnCollision component [F], either by using the circle select button, or by dragging it over from the hierarchy view [G].\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 {{\NeXTGraphic Pasted Graphic 5.tiff \width27320 \height15360
+}¬}\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \
+The game now keeps score of how many monsters the hero has slain.\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 Now is a good time to save the scene and project.\
+\
+More info:\
+{\field{\*\fldinst{HYPERLINK "http://docs.unity3d.com/Manual/class-GuiText.html"}}{\fldrslt http://docs.unity3d.com/Manual/class-GuiText.html}}\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+{\field{\*\fldinst{HYPERLINK "http://docs.unity3d.com/ScriptReference/GUIText.html"}}{\fldrslt \cf0 http://docs.unity3d.com/ScriptReference/GUIText.html}}\
+}

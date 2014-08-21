@@ -1,0 +1,79 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1265\cocoasubrtf210
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\margl1440\margr1440\vieww27080\viewh13880\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+
+\f0\fs24 \cf0 Unity Crash Course\
+Marc Lepage Aug 23\
+\
+Lesson 8 - Scripting\
+\
+Our monster exists in the physical world, but it's still very static. It doesn't move of its own accord. We want it to thrash about.\
+\
+To do that, we will use a script. It's possible there's an appropriate one already in the Asset Store, but this one is pretty simple, so we'll write it ourselves.\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 {{\NeXTGraphic Pasted Graphic 1.tiff \width27320 \height15360
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 \
+\
+In the project view, right click on the "Scripts" folder and choose Create C# Script. This will ensure the new script is created in that folder, which is where we want it. The new script will have its name highlighted so we can easily rename it to "AutoRotator."\
+\
+Double click it to open it, which will launch the MonoDevelop IDE.\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 {{\NeXTGraphic Pasted Graphic 11.tiff \width27320 \height15360
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 \
+\
+We can see that the script already has a place for initial setup ("Start"), and a place for action to occur each frame ("Update").\
+\
+The way scripting in Unity works, is we will add the script to a game object as a kind of custom component. Do that now: select the first joint's game object in the hierarchy view, in the inspector view click Add Component, choose Scripts then Auto Rotator. Our script appears as a component on the first joint [B].\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 {{\NeXTGraphic Pasted Graphic 10.tiff \width27320 \height15360
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 \
+\
+From the script's perspective, it will be instantiated for each game object to which it is attached. When the script runs, the particular game object to which it is attached can be accessed via inherited member variable "gameObject." For example, the script could manipulate the game object's transform component by accessing gameObject.transform. For convenience, the transform is directly accessible via inherited member variable "transform" as well. Likewise for other components such as the renderer, collider, rigidbody, and so on.\
+\
+We want to manipulate transform.localRotation, the game object's transform's local (relative) rotation. Rotation is a quaternion (a kind of math object encoding a 3D orientation) so we'll need to make one. We can do so using Euler angles (a combination of rotations about the X Y and Z axes). So, in the Update function, we'll use wave functions (specifically Sine, also known as Sin) to calculate these rotation angles based on the game's running time (accessed via Time.time, in fractional seconds).\
+\
+But we'll want to vary the rotation per game object, so it isn't hard coded to a particular value. So we'll make some variables for the amplitude (wave height) and frequency (distance between wave peaks) for each axis. This will allow us to tune the rotation for each axis individually.\
+\
+Go ahead and copy the completed script code from the Crash Course folder.\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 {{\NeXTGraphic Pasted Graphic 9.tiff \width27320 \height15360
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 \
+\
+Save the script and look again at the first joint in Unity.\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 {{\NeXTGraphic Pasted Graphic 12.tiff \width27320 \height15360
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 \
+\
+Now the script's component has properties for each public member variable we created in the script, and they default to the values we initialized in the script. What's better, we can change the properties in the editor, and Unity will remember them.\
+\
+Go ahead and change xAmp and zAmp to 45, xFreq to 2, and zFreq to 3. This will make the first joint move about its X and Z axes (the joint itself lies along the Y axis, so no need to rotate about it).\
+\
+Press play and observe the monster flopping about somewhat.\
+\
+Now add another Auto Rotator to the second joint, and set its xAmp and zAmp to 90, xFreq to 3, and zFreq to 4. Finally, add an Auto Rotator to the third joint, and set its xAmp and zAmp to 60, xFreq to 2, and its zFreq to 2. Note how each joint can have its own values configuring its auto rotator component.\
+\
+Press play and observe the monster flopping about a lot more.\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 {{\NeXTGraphic Pasted Graphic 13.tiff \width27320 \height15360
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 \
+\
+Now is a good time to save the scene and project.\
+\
+More info:\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+{\field{\*\fldinst{HYPERLINK "http://docs.unity3d.com/Manual/ScriptingSection.html"}}{\fldrslt \cf0 http://docs.unity3d.com/Manual/ScriptingSection.html}}\
+}

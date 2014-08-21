@@ -1,0 +1,118 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1265\cocoasubrtf210
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\margl1440\margr1440\vieww27080\viewh13880\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+
+\f0\fs24 \cf0 Unity Crash Course\
+Marc Lepage Aug 23\
+\
+Lesson 10 - Player\
+\
+We have created a credible threat to our tiny world. It's time to create a hero to deal with the mess we made.\
+\
+Or, maybe we don't need to create a hero? Let's see if we can hire one.\
+\
+Import the character controller package (all of its contents).\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 {{\NeXTGraphic Pasted Graphic.tiff \width27320 \height15360
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \
+This package contains character controllers and camera controllers for both first and third person characters, and also includes a simple character model with animations. Drag the "3rd Person Controller" prefab [B] from the project's assets (under Standard Assets then Character Controllers) to the hierarchy or scene view to instantiate it.\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 {{\NeXTGraphic Pasted Graphic 1.tiff \width27320 \height15360
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 \
+\
+Select it in the hierarchy view [C] and change its name to "Player". Note that it's already tagged as Player [D]. Predefined tags can be added to any game object, and you can also make your own. Reset the player's transform [E] then set its Y position to 1 (or whatever value places it on the terrain).\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 {{\NeXTGraphic Pasted Graphic 2.tiff \width27320 \height15360
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \
+Now if you press play, the character runs in place, or around the scene if the WASD or cursor keys are used. Space bar performs a jump. This is due to the characters components for animation, character controller, and third person controller.\
+\
+There's also a third person camera component which ensures the camera follows the character. If you only want this kind of behaviour without using these character controllers, importing the "Scripts" standard assets package will provide a "Smooth Follow" camera control script that is useful.\
+\
+At this point, the character can bump into the monsters and push them around, but otherwise nothing happens. Let's turn the player into a Fix-It Felix kind of character, with a magical wrench that can destroy alien worms.\
+\
+To do this, we need to perform an action when the player collides with a monster. That is easily accomplished with a script.\
+\
+But first we need a way to identify monsters. We'll use a tag for that purpose.\
+\
+Select the monster prefab [F] then add a tag [G].\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 {{\NeXTGraphic Pasted Graphic 3.tiff \width27320 \height15360
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \
+To create a tag, we are adding an element to the list of custom tags. So make Element 0 be "Monster." [H]\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 {{\NeXTGraphic Pasted Graphic 4.tiff \width27320 \height15360
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \
+Adding (creating) the tag hasn't actually tagged our monster prefab, so select it again and do that now [I].\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 {{\NeXTGraphic Pasted Graphic 5.tiff \width27320 \height15360
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \
+Now we are ready to create our script. In the project view, right click on "Scripts", choose create new C# script [J], and name it "DestroyMonsterOnCollision".\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 {{\NeXTGraphic Pasted Graphic 6.tiff \width27320 \height15360
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \
+Open the new script in MonoDevelop for editing.\
+\
+We want to do something on collision, so we'll create a new function to handle that event. Functions OnCollisionEnter and OnTriggerEnter seem promising, but because we're using a character controller, it's actually OnControllerColliderHit that we need.\
+\
+In that event function, we'll check the tag of the other object we're colliding with, and if it's a monster, we'll destroy it. We won't need to use the Start or Update functions, but it's OK to leave them.\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 Go ahead and copy the completed script code (v1) from the Crash Course folder.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 {{\NeXTGraphic 1__#$!@%!#__Pasted Graphic.tiff \width27320 \height15360
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \
+Remember our new script isn't yet added to any game object; add it to the Player as a custom script component [K].\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 {{\NeXTGraphic Pasted Graphic 8.tiff \width27320 \height15360
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \
+Press play and run into some monsters. Notice they disappear if we touch their head (the sphere). They don't if we touch the tail. That is because we are checking for the monster tag, and we only tagged the sphere game object with this tag. Note that if we didn't check tags at all, we'd immediately destroy the ground as we collide with the terrain.\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 Now is a good time to save the scene and project.\
+\
+More info:\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+{\field{\*\fldinst{HYPERLINK "http://docs.unity3d.com/Manual/CharacterControllers.html"}}{\fldrslt \cf0 http://docs.unity3d.com/Manual/CharacterControllers.html}}\
+{\field{\*\fldinst{HYPERLINK "http://docs.unity3d.com/Manual/class-CharacterController.html"}}{\fldrslt http://docs.unity3d.com/Manual/class-CharacterController.html}}\
+{\field{\*\fldinst{HYPERLINK "http://docs.unity3d.com/Manual/Tags.html"}}{\fldrslt http://docs.unity3d.com/Manual/Tags.html}}\
+{\field{\*\fldinst{HYPERLINK "http://docs.unity3d.com/Manual/CollidersOverview.html"}}{\fldrslt http://docs.unity3d.com/Manual/CollidersOverview.html}}\
+{\field{\*\fldinst{HYPERLINK "http://docs.unity3d.com/Manual/EventFunctions.html"}}{\fldrslt http://docs.unity3d.com/Manual/EventFunctions.html}}\
+{\field{\*\fldinst{HYPERLINK "http://docs.unity3d.com/Manual/CreateDestroyObjects.html"}}{\fldrslt http://docs.unity3d.com/Manual/CreateDestroyObjects.html}}\
+}

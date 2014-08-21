@@ -1,0 +1,73 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1265\cocoasubrtf210
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\margl1440\margr1440\vieww27080\viewh13880\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+
+\f0\fs24 \cf0 Unity Crash Course\
+Marc Lepage Aug 23\
+\
+Lesson 3 - Skybox\
+\
+Right now our scene is empty, and we only see blue in our camera view. We want to change that, so let's start by adding a sky.\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 {{\NeXTGraphic Pasted Graphic.tiff \width27320 \height15360
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \
+Select the camera in the hierarchy view [A], and look at its camera component in the inspector view. Here we can change the background from blue to another colour [B], and there's also an eyedropper to pick any colour from the screen.\
+\
+We want something more fancy: a skybox, which is a kind of wraparound image typically used to simulate sky. This camera is already set to render a skybox, but because none is configured, it's falling back to a plain colour.\
+\
+We can configure a default skybox for all cameras in the project's Render Settings (in the Edit menu), or a custom skybox for individual cameras (which overrides the Render Settings). Let's add a custom skybox for just this camera.\
+\
+Click the Add Component button [C] and add (under Rendering category) a Skybox component.\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 {{\NeXTGraphic Pasted Graphic 1.tiff \width27320 \height15360
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 \
+\
+We can see a skybox component [D] now appears in the inspector, but the camera's view is still blue. This is because the skybox component is not yet configured.\
+\
+We do not have any skybox assets in our project, so we can't configure the component until we create or import one. Unity comes with a few skyboxes, so let's import those.\
+\
+Right click on Assets in the project view, choose Import Package, Skyboxes [E]. Unity will decompress the package and show an import dialog. This is helpful if we don't want to import all of a package's assets into our project; for now, import all.\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 {{\NeXTGraphic Pasted Graphic 2.tiff \width7280 \height7600
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 \
+\
+The imported assets will be copied into our project folder [F].\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 {{\NeXTGraphic Pasted Graphic 4.tiff \width27320 \height15360
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 \
+\
+With our camera selected, we can either choose a material using the skybox component's circle select button [G], or if our desired material is visible in the project view, we can just drag it from [H] to set the value [I].\
+\
+Let's use the circle select button.\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 {{\NeXTGraphic Pasted Graphic 5.tiff \width27320 \height15360
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 \
+\
+Unity shows a select material dialog [J] and we can choose among materials in our scene or in our project's assets [K]. We can choose materials (including none) [L] and see both the component's value update, and the game view to reflect the new camera settings, live.\
+\
+Having configured our skybox, with our camera still selected we can use the rotate tool (E key) to see what it looks like from all angles; we can easily undo our changes (ctrl+Z) to get back to the default camera view (which is looking at the origin from 10 units down the negative z axis, 1 unit high in the y axis).\
+\
+Now is a good time to save the scene and project.\
+\
+More info:\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+{\field{\*\fldinst{HYPERLINK "http://docs.unity3d.com/Manual/class-Skybox.html"}}{\fldrslt \cf0 http://docs.unity3d.com/Manual/class-Skybox.html}}\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+{\field{\*\fldinst{HYPERLINK "http://docs.unity3d.com/Manual/HOWTO-UseSkybox.html"}}{\fldrslt \cf0 http://docs.unity3d.com/Manual/HOWTO-UseSkybox.html}}\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+{\field{\*\fldinst{HYPERLINK "http://docs.unity3d.com/Manual/HOWTO-InstallStandardAssets.html"}}{\fldrslt \cf0 http://docs.unity3d.com/Manual/HOWTO-InstallStandardAssets.html}}\
+}

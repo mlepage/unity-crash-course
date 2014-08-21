@@ -1,0 +1,59 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1265\cocoasubrtf210
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\margl1440\margr1440\vieww27080\viewh13880\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+
+\f0\fs24 \cf0 Unity Crash Course\
+Marc Lepage Aug 23\
+\
+Lesson 5 - Lighting\
+\
+You may have noticed our scene looks dark in the game view. We need to add some lighting.\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 {{\NeXTGraphic Pasted Graphic 1.tiff \width27320 \height15360
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \
+Create a Directional Light game object [A].\
+\
+Note its transform component [B] by default has the light shining down 50 degrees at some heading. For a directional light, position is irrelevant (because it's assumed to be infinitely far away, approximating a distant light source such as the sun). It's typical to place it at X=0 and Z=0, but higher up such as Y=100, just to keep it out of the way.\
+\
+Note its light component [C]. Here you can set the light's intensity and also colour it. Another interesting setting is shadows: change it to Soft Shadows and reduce the shadow strength to 0.5; notice the effect on the shadows cast by the trees.\
+\
+Typically one would match a directional light's rotation, colour, and intensity to the skybox.\
+\
+Next, create a Point Light game object.\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 {{\NeXTGraphic Pasted Graphic 3.tiff \width27320 \height15360
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \
+Note its transform component. For a point light, rotation is irrelevant (because it's assumed to be omnidirectional, approximating a light source like a bare bulb). Place it near the origin but a few meters off the ground (e.g. Y=10).\
+\
+Note its light component [D]. Here you can set the light's intensity and also colour it (e.g. red). Another interesting setting is range: change it to 50 and note how it has a similar (but not the same) effect as intensity. Unfortunately, shadows are not supported on point lights with Unity Free.\
+\
+Next, create a Spot Light game object.\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 {{\NeXTGraphic Pasted Graphic 4.tiff \width27320 \height15360
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \
+Note its transform component. For a spot light, both position and direction are relevant, because it combines some of the properties of direction and point lights. Place it near the point light, at X=10, Y=10, Z=10.\
+\
+Note its light component [E]. Here you can set the light's intensity and also colour it (e.g. blue). Spot lights have a range like a point light; change it to 50. Change the spot angle to 60 and note its effect. As with point lights, shadows are not supported on with Unity Free.\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 Now is a good time to save the scene and project.\
+\
+More info:\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+{\field{\*\fldinst{HYPERLINK "http://docs.unity3d.com/Manual/Lights.html"}}{\fldrslt \cf0 http://docs.unity3d.com/Manual/Lights.html}}\
+{\field{\*\fldinst{HYPERLINK "http://docs.unity3d.com/Manual/LightingOverview.html"}}{\fldrslt http://docs.unity3d.com/Manual/LightingOverview.html}}\
+}

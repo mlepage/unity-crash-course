@@ -1,0 +1,118 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1265\cocoasubrtf210
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\margl1440\margr1440\vieww27080\viewh13880\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+
+\f0\fs24 \cf0 Unity Crash Course\
+Marc Lepage Aug 23\
+\
+Lesson 9 - Instantiating\
+\
+What could be more threatening than one monster flopping about? How about hundreds of monsters raining from the sky and flopping about!\
+\
+To make this happen, we'll need to create new monster game objects at runtime. This is best done using a prefab, so let's first make our monster into a prefab.\
+\
+A prefab is a prefabricated game object which we can use to create (instantiate) new copies (clones). Basically, it's a kind of template.\
+\
+The advantage of using prefabs is that the clones maintain a relationship to the prefab from which they were created. If the prefab is later changed, the clones can be affected by this change. So for example if we have a prefab tree and place a few in the scene, then decide to change the size or mass of the tree, all the clones in the scene can pick up that change automatically. At the same time, any properties which we customized can retain their overridden values. So prefabs are very useful.\
+\
+To make a prefab from our existing monster, simply drag its game object from the hierarchy view [A] into the "Prefabs" folder in the project view [B] since that's where we want the prefabricated asset to be stored.\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 {{\NeXTGraphic Pasted Graphic.tiff \width27320 \height15360
+}¬}\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \
+This has several effects.\
+\
+First, the prefab is created [C].\
+\
+Second, the game object we used to create the prefab is linked to the prefab. This is indicated by changing its colour in the hierarchy view [D], and also by some extra controls in the inspector view [E].\
+\
+Finally, the appearance of the game object's transform has changed [F]. Some properties are shown in bold face, which indicates they are overriding the values in the linked prefab.\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 {{\NeXTGraphic Pasted Graphic 3.tiff \width27320 \height15360
+}¬}\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \
+Now we have a prefab. We can delete the original game object [D] because we don't need it any more. If we want to instantiate any new copies in a scene, we can simply drag our prefab asset [C] onto the hierarchy view or the scene view.\
+\
+But we don't want to do this manually, we want the game to do it for us automatically as we play. That requires a script, so assuming we don't want to try to find an existing script in the Asset Store, let's create one.\
+\
+Right click on the "Scripts" folder in the project view and create a new C# script. Call it "Spawner" and open it in MonoDevelop.\
+\
+Our script is going to need a prefab to clone from, which we'll store using a public variable of type GameObject so we can set it from the editor.\
+\
+We'll give the script an initial count of clones to spawn, which we'll do in the Start function. After that, we'll spawn a new clone every certain amount of time. Those values are also public variables so we can configure them.\
+\
+In the Update function, we'll count down the remaining time until the next spawn, which we'll also keep in a member variable, but not a public member variable because it's an implementation artifact of the script, not a public configuration value. We'll count down the time using Time.deltaTime, which is the time elapsed since the last frame's update.\
+\
+Spawning will happen in its own function (because it needs to be called from both Start and Update), but this function is also an implementation detail, so it is also not public. The Spawn function will call Instantiate to create a new game object by cloning the prefab. It will however specify a position and rotation to override the prefab's original values.\
+\
+The clone's rotation will be the identity quaternion (that is, no rotation) or a random rotation, and this will be configurable (as a public variable). The clone's position will be random within a box, calculated from a transform's position and scale. More on this later.\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 Go ahead and copy the completed script code from the Crash Course folder.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 {{\NeXTGraphic Pasted Graphic 6.tiff \width27320 \height15360
+}¬}\
+\
+{{\NeXTGraphic Pasted Graphic 12.tiff \width27320 \height15360
+}¬}\
+\
+Back in Unity, merely having this script in the project's assets won't do anything. It has to be attached as a component on a game object. So create a new empty game object (from the Game Object menu), name it "Monster Spawner," and add the spawner script to it as a component.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 {{\NeXTGraphic Pasted Graphic 8.tiff \width27320 \height15360
+}¬}\
+\
+We now have a Monster Spawner game object [G] configured with a spawner script component [H] with default values. If we run the game now, it throws an exception because we haven't specified which prefab to use. We can choose our monster prefab using the circle select button on the prefab property [H], or we can just drag the prefab asset [I] onto the prefab property [H].\
+\
+Having done that, if we run the game something interesting happens.\
+\
+{{\NeXTGraphic Pasted Graphic 9.tiff \width27320 \height15360
+}¬}\
+\
+We can see what's going on more clearly if we pause the game before pressing play [J], then single step frames.\
+\
+Indeed our requested initial 10 clones are created [K]. But they are all created at the origin [L]. In fact they are so tightly packed, that as the game frames execute, the physics engine makes them want to push each other apart, and they eventually explode outward with great force. Yes, we've created a bomb.\
+\
+Why is this? The secret to the mystery lies in the monster spawner's transform component [M]. It's the default transform. The spawner script effectively uses the transform of the game object to which it is attached (in this case, monster spawner) as a cube in which to spawn its prefab clones. So we are trying to spawn 10 monsters into the unit cube at the origin.\
+\
+We could have defined the cube using public member variables in the script, but there's an advantage to doing it this way: we can use the editor to place this spawn area.\
+\
+Add two more components to the monster spawner: a mesh filter and a mesh renderer [N]. Set the filter's mesh to cube. It will appear in the scene and game view as a magenta cube [O]. That means the renderer doesn't have a material set, but that's OK because we don't actually want it to render, we just want to see it while we configure it.\
+\
+{{\NeXTGraphic Pasted Graphic 10.tiff \width27320 \height15360
+}¬}\
+\
+Now we can set the monster spawner's Y position to 100, and its Y scale to 10, so it spawns monsters at altitude from 90m to 110m. By changing its X and Z scale to 150, we make it cover most but not all of the terrain. \
+\
+{{\NeXTGraphic Pasted Graphic 13.tiff \width27320 \height15360
+}¬}\
+\
+Now that's we're happy with the monster spawner's placement, we don't need to see it, so disable its mesh renderer [P].\
+\
+Change the monster spawner's initial count to 100 to spawn more monsters now that we can accommodate them.\
+\
+Run the game and watch alien worms rain down from the eerie sky.\
+\
+{{\NeXTGraphic Pasted Graphic 14.tiff \width27320 \height15360
+}¬}\
+\
+We have created an alien worm apocalypse.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 Now is a good time to save the scene and project.\
+\
+More info:\
+{\field{\*\fldinst{HYPERLINK "http://docs.unity3d.com/Manual/Prefabs.html"}}{\fldrslt http://docs.unity3d.com/Manual/Prefabs.html}}\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+{\field{\*\fldinst{HYPERLINK "http://docs.unity3d.com/Manual/InstantiatingPrefabs.html"}}{\fldrslt \cf0 http://docs.unity3d.com/Manual/InstantiatingPrefabs.html}}\
+}
