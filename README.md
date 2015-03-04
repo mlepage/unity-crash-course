@@ -17,7 +17,7 @@ Concepts learned: layout, views, scenes, saving.
 
 <img src="screenshots/lesson1.png" alt="Lesson 1 Completed"/>
 
-In the Project view, right click on Assets, create a folder, name it Scenes. In the file menu, save the scene as "Game" in that folder.
+In the Project view, right click on Assets, create a folder, name it "Scenes". In the file menu, save the scene as "Game" in that folder.
 
 Save the scene often, in case Unity should crash, as Unity does not auto save. Also periodically save the project.
 
@@ -80,7 +80,42 @@ Notice that materials are effectively global: if you edit the material in an obj
 Lesson 4 - Creating a Tank
 ==========================
 
-Concepts learned: rotation, hierarchy.
+What you will learn:
+
+* nesting objects
+* adjusting rotation
+
+<img src="screenshots/lesson4.png" alt="Lesson 4 Completed"/>
+
+We will create a tank for the player to control. It will consist of a body and a turret with a gun. The gun moves with the turret; the turret rotates in place, and moves with the body.
+
+To accomplish this, we'll nest the objects in a hierarchy so child transforms are relative to those of their parents. We might try a hierarchy like this:
+
+* Tank Body (cube)
+  * Turret (cylinder)
+    * Gun (cylinder)
+
+However that has a problem. As with the arena, we'll be using primitive objects to construct our tank. These cubes and cylinders will be scaled non-uniformly (i.e. differently in the X, Y, and Z directions) and this will wreak havoc on child rotations, scaling, and colliders.
+
+So instead we'll use a slightly more complicated hierarchy like this:
+
+* Tank (empty)
+  * Body (cube)
+  * Turret (empty)
+    * Turret (cylinder)
+    * Gun (cylinder)
+
+Such a hierarchy ensures all parents are uniformly scaled by introducing extra empty objects. This means all non-uniformly scaled objects are childless.
+
+Create an empty object for the tank at the origin and a cube child for its body. The cube should have an X scale of 0.75, a Y scale of 0.25, and a Y position of 0.125 to place it upon the plane. Notice how this allows the tank itself to have a Y position of 0 and still have its body fully above the plane.
+
+Create another empty child of the tank for the turret, and a cylinder as a child of the turret. The cylinder should have an X and Z scale of 0.5, and a Y scale of 0.125 to make it the same height as the body (it's normally 2 units high). To sit upon the body it needs a Y position of 0.375, but instead of applying that to the cylinder, apply it to the turret instead; the cylinder's Y position of 0 will be relative to its parent.
+
+Create another cylinder as a child of the turret. This cylinder needs to be rotated 90 degrees about its X axis so it can play the role of the gun. It should have an X and Z scale of 0.125 and a Y scale of 0.25. Again its Y position should be 0, as it is relative to its parent which is already at the proper height. Its Z position should be 0.375 so it sticks out a bit beyond the body, and it's OK that it penetrates into the turret's cylinder a bit.
+
+Notice how adjusting the Y rotation of the turret rotates the turret cylinder and gun cylinder about the body, and adjusting the X and Z position of the tank moves everything together along the arena floor.
+
+Apply the tank material to the cube and two cylinders so they are appropriately colored.
 
 
 Lesson 5 - Creating Enemies
