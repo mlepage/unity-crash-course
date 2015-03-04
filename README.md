@@ -121,19 +121,87 @@ Apply the tank material to the cube and two cylinders so they are appropriately 
 Lesson 5 - Creating Enemies
 ===========================
 
-Concepts learned: prefabs.
+What you will learn:
+
+* working with prefabs
+
+<img src="screenshots/lesson5.png" alt="Lesson 5 Completed"/>
+
+Our enemies will be much simpler in construction.
+
+Create a capsule, name it "Enemy", and give it the enemy material. By default its height is 2, and we want it to be 0.5, so change its Y scale to 0.25 and its Y position to 0.25 so it sits upon the arena floor.
+
+We want to create many enemies, so we will need a way to manage them collectively. If we were to simply duplicate one enemy to make multiple copies, we could adjust the material and all enemies would change appearance, but we wouldn't have an easy way to adjust the scale of all enemies, or give each an antenna, or anything like that.
+
+Prefabs will let us do that. They are typically stored in a folder called "Prefabs", so make one now.
+
+To create a prefab enemy, simply drag it from the hierarchy view to the prefabs folder. (It could be any folder in the project view, but prefabs is a good place.) Then drag three more copies from the prefabs folder onto the scene or hierarchy view. Move each enemy so it is near a corner of the arena.
+
+The enemies are now instances of the prefab. Notice how each is colored blue in the hierarchy. Some of their properties are bold: these are unique to the instance. Others are not bold: these are inherited from the prefab. For example, each instance has its own position and rotation, but gets its scale from the prefab.
+
+Selecting the prefab and changing its scale will change it for all instances. If you select an instance and change its scale, it will change only for that instance, but you can apply that change to the prefab using a button in the inspector.
+
+If you no longer want an object to be an instance of a prefab, you can choose Break Prefab Instance in the GameObject menu.
 
 
 Lesson 6 - Camera
 =================
 
-Concepts learned: camera.
+What you will learn:
+
+* positioning the camera
+* changing the background color
+* perspective vs. orthographic projection
+
+<img src="screenshots/lesson6.png" alt="Lesson 6 Completed"/>
+
+We've mostly been working in the scene view, but that is not what our game will look like. It is cameras which determine the look of the game.
+
+We can have multiple cameras, but it is the main camera that is most important. One was created for us by default. Select it in the hierarchy and notice what happens in the scene view.
+
+First, we get box showing a preview of what the camera sees. Second, we see an outline of the camera view in the scene.
+
+Switch to the game view and confirm it's the same as the preview. Feel free to navigate in the scene view to see the camera from the side, for a behind the scenes view.
+
+We want our main camera to show a nice overhead view of the arena. Set its height (Y position) to about 7 and make it look down (X rotation) by 60 degrees. Move it forward until the arena is nicely visible; a Z position of about -5.5 should be good.
+
+The background color defaults to blue, feel free to change it.
+
+The projection can either be perspective (the default) or orthographic (more like an engineering drawing). Changing the field of view (for perspective) or size (for orthgraphic) has an effect on the visible area.
+
+Depending on the camera's position in the scene, you may also need to adjust the near and far clipping planes to ensure everything is in view.
 
 
 Lesson 7 - Lights
 =================
 
-Concepts learned: light, shadows.
+What you will learn:
+
+* scene view lighting
+* creating lights
+* types of lights
+* changing a light's color and intensity
+* enabling shadows
+
+<img src="screenshots/lesson7.png" alt="Lesson 7 Completed"/>
+
+You will have noticed in the game view that the scene looks very dark. In the scene view it looks much better.
+
+This is because the scene view has its own artificial lighting. Try toggling it off and on using the light button above the scene view (between the buttons for toggling 2D/3D and audio). When it's off, the scene view lighting matches the game view.
+
+We need to light our scene. We do this by creating some lights. These are another type of object, and they come in a few types.
+
+In the hierarchy, create a directional light. A directional light points in a specific direction, while its position and distance are irrelevant. It's meant to model a distant and powerful light like the sun. In our case the default rotation is is OK, as if it's coming over our right shoulder, but set its Y position to 10 just to get it out of our way in the scene view.
+
+A point light has the opposite nature: its position and distance are important, but direction is not. It's meant to model something like a bare light bulb or the light from a campfire.
+
+A spot light is somewhat like combining a point light with a directional light. It's meant to model something like a flashlight or lighthouse.
+
+An area light is like a glowing panel or a bank of fluorescent tubes.
+
+Select the directional light and note its properties in the inspector. By default it is white but you can change its color. You can also change its intensity to be stronger or weaker.
+
+Turn on soft shadows. These help to anchor the objects (tank and enemies) in the scene. We don't want them too strong, so adjust the strength to 0.5.
 
 
 Lesson 8 - Scripts
