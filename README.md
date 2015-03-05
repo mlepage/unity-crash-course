@@ -275,11 +275,11 @@ We have several options for obtaining player input.
 
 Using the built-in "Input" API, we can get key, joystick, mouse, touch, and accelerometer events fairly easily. However, it lacks mobile controls (e.g. virtual joysticks and touch pads) and requires a lot of custom code and configuration to support diverse input devices (e.g. the many game controllers on the market).
 
-Unity also provides a newer "CrossPlatformInput" API which is mostly a drop-in replacement for Input, but with improvements. Its mobile controls are adequate, but require the use of a separate "Unity Remote" app to easily test in the editor. There are better options.
+Unity also provides a newer "CrossPlatformInput" API which is mostly a drop-in replacement for Input, but with improvements. Its mobile controls are adequate, but require the use of a separate "Unity Remote" app to easily test while running in the editor. And it doesn't handle all the game controllers. There are better options.
 
-The best library for handling input is an API called "InControl". The free open source version handles virtually all of the game controllers. The mobile controls are only in the paid version (worth the $25 price).
+The best library for handling input is an API called "InControl". The free open source version handles virtually all of the game controllers. You'll have to purchase the paid version to use the mobile controls, but it's worth $25.
 
-For now we'll use another free open source library called "CN Controls". It only really provides mobile controls, but they work with the mouse in the editor.
+For now we'll use another free open source library called "CN Controls". It only provides mobile controls (e.g. virtual joystick and touch pad), but they work with the mouse in the editor.
 
 From the Window menu, open the Asset Store. Create an account and log in. You should see assets which you can inspect right in the browser. There are usually sales, and favouriting assets is a good way to bookmark interesting ones for later.
 
@@ -287,11 +287,51 @@ Search for "CN Controls" and you should find a free version. Click download, the
 
 Later, you will be able to go into the download manager (in the asset store) to manage downloads and updates.
 
+Reference:
+
+* [Input (API)](http://docs.unity3d.com/ScriptReference/Input.html)
+* [CrossPlatformInput (asset store)](https://www.assetstore.unity3d.com/en/?gclid=COrp25iwkMQCFQozaQod3iIApQ#!/content/21064)
+* [InControl (asset store)](https://www.assetstore.unity3d.com/en/?gclid=CP3Mz5GukMQCFQyUaQodVHAADg#!/content/14695)
+* [CN Controls (asset store)](https://www.assetstore.unity3d.com/en/?gclid=CP3Mz5GukMQCFQyUaQodVHAADg#!/content/15233)
+
 
 Lesson 10 - Handling Player Input
 =================================
 
-Concepts learned: reading in joysticks, debug logging.
+What you will learn:
+
+* using CN Controls for joystick input
+* changing a script's execution order
+* assigning references in the editor
+
+<img src="screenshots/lesson10.png" alt="Lesson 10 Completed"/>
+
+We've imported CN Controls into our project, but we still have to use it within our game.
+
+In the hierarchy, under Create Other, create a CN Controls Joystick. It will appear in the hierarchy view as a CNJoystick under a CNControlCamera. You should see it in the game view, and if you run the game, it should react to mouse events.
+
+Create another joystick and change its anchor to right bottom.
+
+One more thing: we'll have to ensure the joysticks update before we try to read their values. We do this by setting a low negative number for the script's execution order. In the edit menu, under project settings, script execution order, we can see this has already been done for us: the value for CNAbstractController is -100.
+
+Now open the TankInput script. Add two public variables to hold references to the joystick objects we just created.
+
+    public CNAbstractController moveStick;
+    public CNAbstractController shootStick;
+
+We won't set these references in code. Because they are public, they will appear in the inspector. Save the scripts and go back into the editor, select the tank, and you should see them in the inspector. Drag the left stick from the hierarchy onto "Move Stick". For "Shoot Stick", click the circle select button and assign the right stick from a list of appropriate game objects. Now Unity will maintain these references when it instantiates the script component for the game object.
+
+All that remains is to use the joystick input in the TankInput script's FixedUpdate function. This is relatively easy:
+
+        Vector2 move = new Vector2 (moveStick.GetAxis ("Horizontal"), moveStick.GetAxis ("Vertical"));
+        Vector2 shoot = new Vector2 (shootStick.GetAxis ("Horizontal"), shootStick.GetAxis ("Vertical"));
+
+Run the game and you should see the stick values in the console as you use them.
+
+Reference:
+
+* [CN Controls overview and installation guide](rush-game/Assets/CNControls/README.pdf)
+* [CN Controls overview video](https://www.youtube.com/watch?v=w5oKjwkNevk)
 
 
 Lesson 11 - Tank Movement
