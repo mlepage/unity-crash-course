@@ -207,52 +207,118 @@ Turn on soft shadows. These help to anchor the objects (tank and enemies) in the
 Lesson 8 - Scripts
 ==================
 
-Concepts learned: setting up game objects for control.
+What you will learn:
+
+* creating C# scripts
+* attaching scripts to game objects
+* editing scripts with MonoDevelop
+* using the debug console
+* running the game in the editor
+
+<img src="screenshots/lesson8.png" alt="Lesson 8 Completed"/>
+
+Our game has taken shape, but so far it's static, with no game play. That will change once we start scripting to add behaviour.
+
+Scripts are typically saved in a folder called "Scripts" so create one now. They are compiled and attached to game objects as custom components that you control.
+
+We want to control our tank with player input. But conceptually a tank could just as well be controlled by an AI script. Therefore, it's common to use two scripts: one to control the game object, which is called by another that gets player (or AI) input.
+
+So create one C# script named "TankControl" and another named "TankInput". Drag them onto the tank object in the hierarchy; you should see them appear in the inspector.
+
+Double click on the TankControl script and it will open in MonoDevelop, a C# development environment. You can see a C# class is created with the name "TankControl". (If you ever rename the script file, you'll have to rename this class also.)
+
+Scripts are created with two functions for convenience: Start (called when a game object becomes active), and Update (called every frame).
+
+In TankControl, we won't be using the Update function, so change its name to Control, make it public (so we can call it from another script), and give it two Vector2 arguments for moving and shooting. Add a debug statement to log those arguments to the console. Leave the Start function empty.
+
+    public void Control (Vector2 move, Vector2 shoot) {
+        Debug.Log ("move: " + move + " shoot: " + shoot);
+    }
+
+In TankInput, we want to call the TankControl script attached to the same game object, so we'll need a reference to it. Make a member variable of the appropriate type:
+
+    TankControl control;
+
+In the Start function, call GetComponent with the appropriate type to get the reference:
+
+    void Start () {
+        control = GetComponent<TankControl> ();
+    }
+
+Now, we don't want to control the tank every frame, because it's a physical object, so it should only be affected by input when the physics engine updates. So change the Update function's name to FixedUpdate. In it, we'll create two Vector2 objects and pass them to the control script.
+
+    void FixedUpdate () {
+        Vector2 move = new Vector2 ();
+        Vector2 shoot = new Vector2 ();
+        control.Control (move, shoot);
+    }
+
+Save the scripts and go back into Unity. From the Window menu, open the Console and drag its tab so it's beside the game and scene views. If there are any compile errors, they will appear here and you'll have to fix them in MonoDevelop before proceeding.
+
+We can run the game from within the editor. This is very effective for testing how our scripts behave. Press the play button in the top center of the Unity editor. The game view will show (either maximized or not). We can pause and single step if we wish.
+
+Our debug log statements will appear in the bottom of the Unity editor, and also in the console. You should see the move/shoot log statement is being called many times a second.
 
 
-Lesson 9 - Input
-================
+Lesson 9 - Input APIs
+=====================
 
-Concepts learned: Input, CrossPlatformInput, CN Controls, InControl
+What you will learn:
+
+* APIs for handling input
+* using the asset store
+* using the download manager
+
+<img src="screenshots/lesson9.png" alt="Lesson 9 Completed"/>
+
+We have several options for obtaining player input.
+
+Using the built-in "Input" API, we can get key, joystick, mouse, touch, and accelerometer events fairly easily. However, it lacks mobile controls (e.g. virtual joysticks and touch pads) and requires a lot of custom code and configuration to support diverse input devices (e.g. the many game controllers on the market).
+
+Unity also provides a newer "CrossPlatformInput" API which is mostly a drop-in replacement for Input, but with improvements. Its mobile controls are adequate, but require the use of a separate "Unity Remote" app to easily test in the editor. There are better options.
+
+The best library for handling input is an API called "InControl". The free open source version handles virtually all of the game controllers. The mobile controls are only in the paid version (worth the $25 price).
+
+For now we'll use another free open source library called "CN Controls". It only really provides mobile controls, but they work with the mouse in the editor.
+
+From the Window menu, open the Asset Store. Create an account and log in. You should see assets which you can inspect right in the browser. There are usually sales, and favouriting assets is a good way to bookmark interesting ones for later.
+
+Search for "CN Controls" and you should find a free version. Click download, then import. You can choose which parts of the asset to import; for now just import it all into the project.
+
+Later, you will be able to go into the download manager (in the asset store) to manage downloads and updates.
 
 
-Lesson 10 - Asset Store
-=======================
-
-Concepts learned: importing from the asset store
-
-
-Lesson 11 - Handling Player Input
+Lesson 10 - Handling Player Input
 =================================
 
 Concepts learned: reading in joysticks, debug logging.
 
 
-Lesson 12 - Tank Movement
+Lesson 11 - Tank Movement
 =========================
 
 Concepts learned: using physics to move, time.
 
 
-Lesson 13 - Enemy Movement
+Lesson 12 - Enemy Movement
 ==========================
 
 Concepts learned: using physics
 
 
-Lesson 14 - Collisions
+Lesson 13 - Collisions
 ======================
 
 Concepts learned: collisions, tag
 
 
-Lesson 15 - Tank Shooting
+Lesson 14 - Tank Shooting
 =========================
 
 Concepts learned: instantiate, destroy, physics forces
 
 
-Lesson 16 - Audio
+Lesson 15 - Audio
 =================
 
 Concepts learned: audio
