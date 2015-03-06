@@ -229,7 +229,7 @@ Double click on the TankControl script and it will open in MonoDevelop, a C# dev
 
 Scripts are created with two functions for convenience: Start (called when a game object becomes active), and Update (called every frame).
 
-In TankControl, we won't be using the Update function, so change its name to Control, make it public (so we can call it from another script), and give it two Vector2 arguments for moving and shooting. Add a debug statement to log those arguments to the console. Leave the Start function empty.
+In TankControl, we won't be using the Update function, so change its name to Control, make it public (so we can call it from another script), and give it two Vector2 arguments for moving and shooting. Add a debug statement to log those arguments to the console. Leave the Start function empty for now.
 
     public void Control (Vector2 move, Vector2 shoot) {
         Debug.Log ("move: " + move + " shoot: " + shoot);
@@ -306,13 +306,13 @@ What you will learn:
 
 <img src="screenshots/lesson10.png" alt="Lesson 10 Completed"/>
 
-We've imported CN Controls into our project, but we still have to use it within our game.
+We've imported the CN Controls library into our project, but we still have to use it within our game.
 
 In the hierarchy, under Create Other, create a CN Controls Joystick. It will appear in the hierarchy view as a CNJoystick under a CNControlCamera. You should see it in the game view, and if you run the game, it should react to mouse events.
 
-Create another joystick and change its anchor to right bottom.
+Create another joystick and change its anchor to right bottom. Now we have a left and right stick. The left stick will move the tank, and the right will shoot.
 
-One more thing: we'll have to ensure the joysticks update before we try to read their values. We do this by setting a low negative number for the script's execution order. In the edit menu, under project settings, script execution order, we can see this has already been done for us: the value for CNAbstractController is -100.
+One more thing: we'll have to ensure the virtual joysticks update before we try to read their values. We do this by setting a low negative number for the script's execution order. In the edit menu, under project settings, script execution order, we can see this has already been done for us: the value for CNAbstractController is -100.
 
 Now open the TankInput script. Add two public variables to hold references to the joystick objects we just created.
 
@@ -337,28 +337,232 @@ Reference:
 Lesson 11 - Tank Movement
 =========================
 
-Concepts learned: using physics to move, time.
+What you will learn:
+
+* rigid body physics
+* moving a rigid body
+* rotating a rigid body
+* colliders
+
+<img src="screenshots/lesson11.png" alt="Lesson 11 Completed"/>
+
+We are now ready to move our tank according to player input.
+
+Open the TankControl script. We'll want a configurable speed for our tank, so add a public member variable:
+
+    public float speed = 1f;
+
+Our tank will default to 1 unit per second, but we can adjust that later in the inspector and Unity will use whatever value we set instead of the script's hardcoded value.
+
+In the Control function, we'll want to move the tank, but only if the stick has moved.
+
+    if (0f < move.sqrMagnitude) {
+        rigidbody.MovePosition (rigidbody.position + new Vector3 (move.x, 0f, move.y) * speed * Time.fixedDeltaTime);
+    }
+
+The tank is moved by taking its current physical position, adding the distance it has moved over the time of the physics update, and using that to set its new physical position. The distance moved is the (already normalized) input movement vector, converted from 2D (XY) to 3D (XZ), scaled by the tank's speed over the time period.
+
+The rigidbody is a component attached to the game object that performs physics updates. If we were to run the game now, it would crash, as our tank object has no rigidbody component attached to it. So select the tank and add one (under Physics, not Physics 2D).
+
+Run the app and you should see it bounce around according to left stick input. It should not go through the floor, walls, or enemies. However, it's possible to flip the tank or even make it exit the arena, and another issue is the tank may move or spin without stick input at all.
+
+The bounce can be eliminated in the rigidbody by freezing the Y position and the X and Z rotation (under constraints). The aimless movement and spinning can be eliminated by setting drag and angular drag to infinity. Finally, we can uncheck Use Gravity since our gameplay is restricted to the XZ plane.
+
+These settings make our tank movement a lot smoother, but it still doesn't point in the proper direction. Let's fix that.
+
+First, in the TankInput Control function, in the if statement, use a little bit of trigonometry to determine the angle of rotation in degrees.
+
+    float a = Mathf.Atan2 (move.x, move.y) * Mathf.Rad2Deg;
+
+Then rotate the tank by setting its physical rotation using that angle (relative to the up axis).
+
+    rigidbody.MoveRotation (Quaternion.AngleAxis (a, Vector3.up));
+
+Run the game and the tank should now point in the direction it is travelling.
+
+So how does the rigid body know how to move physically in a scene? By default, each of the primitive objects has a collider which defines its physical presence in the world. Since we composed our scene (floor, walls, enemies, tank) from primitives, they have a phyiscal presence. The rigidbody component then dictates how these colliders react in the physics engine.
+
+Our tank has several primitive components, but for movement, we only care about the collider on the body cube. We have no need or desire for colliders on the cylinders (turret and gun), so disable or remove them.
 
 
 Lesson 12 - Enemy Movement
 ==========================
 
-Concepts learned: using physics
+What you will learn:
+
+* controlling enemy behaviour from a script
+
+<img src="screenshots/lesson12.png" alt="Lesson 12 Completed"/>
+
+Our enemies will have very simple behaviour. They will cycle through three states: idle, warn, and rush.
+
+When idle, they are immobile, vulnerable, and therefore green. Then they change to a warn state, which remains immobile but is invulnerable, so yellow. Finallly they change to a rush state, which is invulnerable and mobile, so red. Then back to idle.
+
+One script (Enemy) will suffice. It will operate just like the tank control script: moving the position of the object's rigid body in FixedUpdate. Instead of input, it will be controlled by the states, which are just member variables which vary over time with a little randomness.
+
+Consult the finished script for details. It should be added to the enemy prefab.
+
+The enemy prefab still needs some configuration. It needs a rigidbody component, configured just like tank's. The three enemy materials have to be hooked up to the script, so the color can change with the state.
+
+And one more thing. Because of the shape of the colliders on the heavily squished capsules, they intersect with the arena floor's collider. This means they will prevent the enemies from moving properly. The easiest fix, because our gameplay is restricted to the XZ plane and we've disabled gravity, is to simply remove the collider from the arena floor.
+
+Run the game and you should see the enemies change color and move around, occasionally bumping into each other or the tank.
 
 
 Lesson 13 - Collisions
 ======================
 
-Concepts learned: collisions, tag
+What you will learn:
+
+* detecting and handling collisions
+* comparing tags
+* destroying objects
+
+We want the enemy to be dangerous to the player's tank. It should destroy the tank whenever they come into contact.
+
+We can do this by detecting collisions between colliders. This only works if at least one of the colliding objects has a collider, but that is the case.
+
+So add function OnCollisionEnter to the enemy script:
+
+    void OnCollisionEnter (Collision collision) {
+        Debug.Log ("player hit?");
+    }
+
+If you run this code, you'll find it detects when an enemy hits the player, but also when an enemy hits another enemy, or a wall. We need handle the collision a little more carefully.
+
+The easiest check to perform is against the tag of the colliding object. There is already a "Player" tag, so we'll use that.
+
+    void OnCollisionEnter (Collision collision) {
+        if (collision.collider.CompareTag ("Player")) {
+            Debug.Log ("player hit!");
+        }
+    }
+
+It still won't work until we tag the tank's body object as "Player" (in its transform component). Tagging is useful, and we can create our own tags if we desire.
+
+Normally, at this point we'd play a sound, reduce the tank's health or life, possibly even declare the game to be over. That is left as an exercise for the reader.
 
 
 Lesson 14 - Tank Shooting
 =========================
 
-Concepts learned: instantiate, destroy, physics forces
+What you will learn:
+
+* finding objects by name
+* instantiating objects
+
+<img src="screenshots/lesson14.png" alt="Lesson 14 Completed"/>
+
+We haven't yet made our right stick shoot. Let's enhance our TankControl script to do this.
+
+First, we'll need the turret and gun objects. Make some member variables to store them.
+
+    GameObject turret;
+    GameObject gun;
+
+Then get them by name in the Start function. This is brittle in the face of hierarchy changes, but easy. Notice how you can search the hierarchy like a path name.
+
+    void Start () {
+        turret = transform.FindChild ("Turret").gameObject;
+        gun = transform.FindChild ("Turret/Gun").gameObject;
+    }
+
+We'll want to limit our firing rate. First make some member variables to configure and keep track of reload time.
+
+    public float reload = 0.5f;
+    float reloadTime = 0f;
+
+Now we are ready to enhance the Control function to shoot.
+
+We want to rotate the turret in a manner very similar to how we rotated the tank body, except we don't care about physics. So we'll rotate the turret's transform, instead of its rigid body (which it doesn't have).
+
+Additionally, we'll keep track of reload time, and only shoot if the time is right. We'll shoot by calling another function with the shot's angle.
+
+    if (0f < reloadTime) {
+        reloadTime -= Time.fixedDeltaTime;
+    }
+    if (0f < shoot.sqrMagnitude) {
+        float a = Mathf.Atan2 (shoot.x, shoot.y) * Mathf.Rad2Deg;
+        turret.transform.rotation = Quaternion.AngleAxis (a, Vector3.up);
+        if (reloadTime <= 0f) {
+            Shoot (a);
+            reloadTime = reload;
+        }
+    }
+
+We'll need a shot to shoot. This will require a prefab which we'll hook up in the editor.
+
+    GameObject shotPrefab;
+
+Now we're ready to write our Shoot function. We'll do this by instantiating a clone of the shot prefab object. It will be instantiated at the gun's position, with the desired rotation.
+
+    void Shoot (float a) {
+        Instantiate (shotPrefab, gun.transform.position, Quaternion.AngleAxis (a, Vector3.up));
+    }
+
+We've done everything needed in the tank, but we're not done yet. If you run the game, you'll get exceptions because there is no shot prefab. That's next.
 
 
-Lesson 15 - Audio
+Lesson 15 - Shots
 =================
 
-Concepts learned: audio
+What you will learn:
+
+* changing a rigid body's velocity
+* destroying objects
+
+<img src="screenshots/lesson15.png" alt="Lesson 15 Completed"/>
+
+Let's make a shot.
+
+In the editor, create a sphere, reset its transform, and set its X, Y, and Z scale to 0.1. Rename it "Shot" and drag it into the "Prefabs" folder. On the tank object, attach the shot prefab to the TankControl script.
+
+Now we can move and shoot, but the shots do nothing. To move them with physics, we'll first need to add a rigid body component to the shot prefab object. Disable gravity and freeze its Y position as before. Freeze all rotation, and set angular drag to infinity. This time however, set drag to 0 so we can move the shot with forces.
+
+Create a new C# script named "Shot" and attach it to the shot prefab object.
+
+Give it a public member variable to configure the shot speed.
+
+    public float speed = 6f;
+
+Then, in the Start function, change the velocity of the shot's rigid body so it moves on its own.
+
+    void Start () {
+        rigidbody.velocity = transform.forward * speed;
+    }
+
+At this point, the tank can shoot, and the shots will bounce off other colliders, but they won't do anything interesting. We need to handle collisions.
+
+There are many ways we could tell what collided with the shot. In this case, it suffices to compare materials as only the EnemyIdle material is vulnerable.
+
+So create a public member variable.
+
+    public Material vulnerableMaterial;
+
+Configure it in the editor with the EnemyIdle material.
+
+Finally, check against it in the OnCollisionEnter function.
+
+    void OnCollisionEnter (Collision collision) {
+        if (collision.collider.gameObject.renderer.sharedMaterial == vulnerableMaterial) {
+            Debug.Log ("shot an enemy!");
+        }
+        Destroy (gameObject);
+    }
+
+If we shot an enemy, we might want to play a sound, trigger an explosion, increase our score, leave a power-up, etc.
+
+Regardless of what we hit, the shot is destroyed. It's important to call Destroy(gameObject) and not Destroy(this), as the latter destroys the script while leaving the game object alive.
+
+
+Lesson 16 - Audio
+=================
+
+TODO, in the meantime see [Karmbat](https://github.com/mlepage/karmbat).
+
+References:
+
+* [Bfxr](http://www.bfxr.net/)
+* [Audacity](http://audacity.sourceforge.net/)
+
+
