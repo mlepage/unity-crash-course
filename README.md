@@ -1,25 +1,49 @@
 Introduction
 ============
 
-Unity Crash Course aims to teach complete beginners the essential basics of Unity in just 90 minutes. It was written by Marc Lepage in August 2014, and heavily revised in March 2015.
+Unity Crash Course aims to teach complete beginners how to create a simple game in just 90 minutes. It was written by Marc Lepage in August 2014, and heavily revised in March 2015.
 
 
 Lesson 0 - About Unity
 ======================
 
-Concepts learned: Unity overview.
+Unity is a game engine. It does a lot of the heavy lifting of making a game, so you can focus on game design, graphics, audio, story, etc.
+
+Supported platforms include:
+
+* mobile (BlackBerry, Android, iOS, Windows Phone)
+* desktops (Windows, OS X, Linux)
+* consoles (requires license)
+* web player (native plugin)
+
+The free version can be used commercially up to a reasonable sales limit.
+
+Unity 5 brings new features such as physically-based shaders, real-time global illumination, a new physics engine, a new WebGL player, etc. Additionally, it removes a lot of the restrictions the free versions have historically had. This course uses Unity 4.6.3.
+
+Unity has an Asset Store which provides many free or reasonably priced assets (scripts, models, animations, etc.). These can help you get started.
+
+Also there is a wealth of material on learning and using Unity.
 
 
 Lesson 1 - Learning the Interface
 =================================
 
-Concepts learned: layout, views, scenes, saving.
+What you will learn:
+
+* changing the editor layout
+* various views
+* scenes
+* saving the scene and project
 
 <img src="screenshots/lesson1.png" alt="Lesson 1 Completed"/>
 
 In the Project view, right click on Assets, create a folder, name it "Scenes". In the file menu, save the scene as "Game" in that folder.
 
 Save the scene often, in case Unity should crash, as Unity does not auto save. Also periodically save the project.
+
+References:
+
+* [Learning the Interface (Unity Manual)](http://docs.unity3d.com/Manual/LearningtheInterface.html)
 
 
 Lesson 2 - Creating the Arena
@@ -566,3 +590,13 @@ References:
 * [Audacity](http://audacity.sourceforge.net/)
 
 
+Lesson 17 - Building for Web
+============================
+
+TODO
+
+
+Lesson 18 - Building for Mobile
+===============================
+
+TODO
